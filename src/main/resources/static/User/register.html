@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Lost & Found</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="auth-wrapper">
+    <div class="auth-side">
+        <h1>Create Account</h1>
+        <p>Join our campus community to get started.</p>
+    </div>
+
+    <div class="auth-form">
+        <div class="auth-card">
+            <h2>Register</h2>
+            <p class="subtitle">Create your Lost & Found account</p>
+
+            <label>Full Name</label>
+            <input type="text" id="fullName" placeholder="Enter your full name">
+
+            <label>Email</label>
+            <input type="email" id="email" placeholder="Enter your email">
+
+            <label>Password</label>
+            <input type="password" id="password" placeholder="Create a password">
+
+            <label>Contact Number</label>
+            <input type="text" id="contactNumber" placeholder="Enter phone number">
+
+            <p class="error-text" id="errorText"></p>
+
+            <button class="btn-primary" onclick="register()">Register</button>
+
+            <p class="switch-link">Already have an account? <a href="login.html">Login here</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function register() {
+        const fullName = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const contactNumber = document.getElementById('contactNumber').value.trim();
+        const errorText = document.getElementById('errorText');
+
+        if (!fullName || !email || !password) {
+            errorText.innerText = "Please fill in all required fields.";
+            errorText.style.display = 'block';
+            return;
+        }
+
+        const response = await fetch('/api/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fullName, email, password, contactNumber })
+        });
+
+        if (response.ok) {
+            window.location.href = 'login.html';
+        } else {
+            errorText.innerText = "Registration failed. Try again.";
+            errorText.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>

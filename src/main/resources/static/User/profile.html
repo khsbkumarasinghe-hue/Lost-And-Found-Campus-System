@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile - Lost & Found</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="dashboard">
+    <div class="sidebar">
+        <h2>UOC Lost & Found</h2>
+        <a href="#">Dashboard</a>
+        <a href="#" class="active">Profile</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="profile-card">
+            <div class="avatar" id="avatarInitial">?</div>
+            <div class="profile-info">
+                <h3 id="displayName">Loading...</h3>
+                <p id="displayEmail"></p>
+            </div>
+        </div>
+
+        <div class="edit-form">
+            <h3>Edit Profile</h3>
+
+            <label>Full Name</label>
+            <input type="text" id="fullName">
+
+            <label>Email</label>
+            <input type="email" id="email">
+
+            <label>Contact Number</label>
+            <input type="text" id="contactNumber">
+
+            <div class="btn-row">
+                <button class="btn-primary" onclick="saveProfile()">Save Changes</button>
+                <button class="btn-secondary" onclick="loadProfile()">Cancel</button>
+            </div>
+
+            <button class="btn-danger" onclick="deleteAccount()">Delete Account</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const userId = localStorage.getItem('loggedInUserId');
+
+    if (!userId) {
+        window.location.href = 'login.html';
+    }
+
+    async function loadProfile() {
+        const response = await fetch(`/api/users/${userId}`);
+        const user = await response.json();
+
+        document.getElementById('displayName').innerText = user.fullName;
+        document.getElementById('displayEmail').innerText = user.email;
+        document.getElementById('avatarInitial').innerText = user.fullName.charAt(0).toUpperCase();
+
+        document.getElementById('fullName').value = user.fullName;
+        document.getElementById('email').value = user.email;
+        document.getElementById('contactNumber').value = user.contactNumber ?? '';
+    }
+
+    async function saveProfile() {
+        const updatedUser = {
+            fullName: document.getElementById('fullName').value,
+            email: document.getElementById('email').value,
+            contactNumber: document.getElementById('contactNumber').value
+        };
+
+        await fetch(`/api/users/${userId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedUser)
+        });
+
+        loadProfile();
+    }
+
+    async function deleteAccount() {
+        if (!confirm('Are you sure you want to delete your account?')) return;
+
+        await fetch(`/api/users/${userId}`, { method: 'DELETE' });
+        logout();
+    }
+
+    function logout() {
+        localStorage.removeItem('loggedInUserId');
+        window.location.href = 'login.html';
+    }
+
+    loadProfile();
+</script>
+
+</body>
+</html>
