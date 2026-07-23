@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Report Item - Lost & Found</title>
+    <link rel="stylesheet" href="../User/css/style.css">
+</head>
+<body>
+
+<div class="app-layout">
+    <div class="sidebar">
+        <h2>UOC Lost & Found</h2>
+        <a href="../User/profile.html">Dashboard</a>
+        <a href="browse-items.html">Browse Items</a>
+        <a href="report-item.html" class="active">Report Item</a>
+        <a href="../User/profile.html">Profile</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <div class="app-main">
+        <div class="report-container">
+            <h2 id="formTitle">Report Lost / Found Item</h2>
+            <p class="subtitle">Please provide details about the item</p>
+
+            <input type="hidden" id="itemId">
+
+            <label>Item Name</label>
+            <input type="text" id="name" placeholder="Enter item name">
+
+            <label>Status</label>
+            <select id="status">
+                <option value="LOST">Lost</option>
+                <option value="FOUND">Found</option>
+            </select>
+
+            <label>Category</label>
+            <input type="text" id="category" placeholder="e.g. Electronics, Wallets, ID Cards">
+
+            <label>Location</label>
+            <input type="text" id="location" placeholder="Where was it lost/found?">
+
+            <label>Date</label>
+            <input type="date" id="date">
+
+            <label>Description</label>
+            <textarea id="description" placeholder="Describe the item..."></textarea>
+
+            <button class="btn-primary" onclick="saveItem()">Submit Report</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_URL = '/api/items';
+    const params = new URLSearchParams(window.location.search);
+    const itemId = params.get('id');
+
+    if (itemId) {
+        document.getElementById('formTitle').innerText = 'Edit Item';
+        loadItem();
+    }
+
+    async function loadItem() {
+        const response = await fetch(`${API_URL}/${itemId}`);
+        const item = await response.json();
+
+        document.getElementById('itemId').value = item.id;
+        document.getElementById('name').value = item.name;
+        document.getElementById('status').value = item.status;
+        document.getElementById('category').value = item.category ?? '';
+        document.getElementById('location').value = item.location ?? '';
+        document.getElementById('date').value = item.date ?? '';
+        document.getElementById('description').value = item.description ?? '';
+    }
+
+    async function saveItem() {
+        const item = {
+            name: document.getElementById('name').value,
+            status: document.getElementById('status').value,
+            category: document.getElementById('category').value,
+            location: document.getElementById('location').value,
+            date: document.getElementById('date').value,
+            description: document.getElementById('description').value
+        };
+
+        const url = itemId ? `${API_URL}/${itemId}` : API_URL;
+        const method = itemId ? 'PUT' : 'POST';
+
+        await fetch(url, {
+            method: method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(item)
+        });
+
+        window.location.href = 'browse-items.html';
+    }
+
+    function logout() {
+        localStorage.removeItem('loggedInUserId');
+        window.location.href = '../User/login.html';
+    }
+</script>
+
+</body>
+</html>

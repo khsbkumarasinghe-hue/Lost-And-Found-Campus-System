@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Browse Items - Lost & Found</title>
+    <link rel="stylesheet" href="../User/css/style.css">
+</head>
+<body>
+
+<div class="app-layout">
+    <div class="sidebar">
+        <h2>UOC Lost & Found</h2>
+        <a href="../User/profile.html">Dashboard</a>
+        <a href="browse-items.html" class="active">Browse Items</a>
+        <a href="report-item.html">Report Item</a>
+        <a href="../User/profile.html">Profile</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <div class="app-main">
+        <div class="page-header">
+            <h2>Browse Lost & Found Items</h2>
+            <a href="report-item.html"><button class="btn-primary" style="width:auto; padding:10px 18px;">+ Report Item</button></a>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search items..." oninput="loadItems()">
+            <select id="statusFilter" onchange="loadItems()">
+                <option value="">All Status</option>
+                <option value="LOST">Lost</option>
+                <option value="FOUND">Found</option>
+            </select>
+        </div>
+
+        <div class="item-grid" id="itemGrid"></div>
+    </div>
+</div>
+
+<script>
+    const API_URL = '/api/items';
+
+    async function loadItems() {
+        const response = await fetch(API_URL);
+        let items = await response.json();
+
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        const statusFilter = document.getElementById('statusFilter').value;
+
+        items = items.filter(item =>
+            item.name.toLowerCase().includes(search) &&
+            (statusFilter === '' || item.status === statusFilter)
+        );
+
+        const grid = document.getElementById('itemGrid');
+        grid.innerHTML = '';
+
+        items.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            card.innerHTML = `
+        <span class="badge ${item.status}">${item.status}</span>
+        <div class="item-body">
+          <h4>${item.name}</h4>
+          <p>${item.category ?? ''}</p>
+          <p>${item.location ?? ''}</p>
+          <p>${item.date ?? ''}</p>
+          <div class="actions">
+            <button class="edit-btn" onclick="editItem(${item.id})">Edit</button>
+            <button class="delete-btn" onclick="deleteItem(${item.id})">Delete</button>
+          </div>
+        </div>
+      `;
+            grid.appendChild(card);
+        });
+    }
+
+    function editItem(id) {
+        window.location.href = `report-item.html?id=${id}`;
+    }
+
+    async function deleteItem(id) {
+        if (!confirm('Delete this item?')) return;
+        await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+        loadItems();
+    }
+
+    function logout() {
+        localStorage.removeItem('loggedInUserId');
+        window.location.href = '../User/login.html';
+    }
+
+    loadItems();
+</script>
+
+</body>
+</html>

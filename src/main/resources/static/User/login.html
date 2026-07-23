@@ -39,8 +39,6 @@
         const password = document.getElementById('password').value.trim();
         const errorText = document.getElementById('errorText');
 
-        // Simple approach: fetch all users and match email+password on the frontend.
-        // (Fine for a student project — a real system would have a dedicated /api/login endpoint.)
         const response = await fetch('/api/users');
         const users = await response.json();
 

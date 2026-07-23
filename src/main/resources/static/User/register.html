@@ -19,7 +19,7 @@
             <p class="subtitle">Create your Lost & Found account</p>
 
             <label>Full Name</label>
-            <input type="text" id="fullName" placeholder="Enter your full name">
+            <input type="text" id="name" placeholder="Enter your full name">
 
             <label>Email</label>
             <input type="email" id="email" placeholder="Enter your email">
@@ -28,7 +28,7 @@
             <input type="password" id="password" placeholder="Create a password">
 
             <label>Contact Number</label>
-            <input type="text" id="contactNumber" placeholder="Enter phone number">
+            <input type="text" id="phone" placeholder="Enter phone number">
 
             <p class="error-text" id="errorText"></p>
 
@@ -41,13 +41,13 @@
 
 <script>
     async function register() {
-        const fullName = document.getElementById('fullName').value.trim();
+        const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value.trim();
-        const contactNumber = document.getElementById('contactNumber').value.trim();
+        const phone = document.getElementById('phone').value.trim();
         const errorText = document.getElementById('errorText');
 
-        if (!fullName || !email || !password) {
+        if (!name || !email || !password) {
             errorText.innerText = "Please fill in all required fields.";
             errorText.style.display = 'block';
             return;
@@ -56,7 +56,7 @@
         const response = await fetch('/api/users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ fullName, email, password, contactNumber })
+            body: JSON.stringify({ name, email, password, phone })
         });
 
         if (response.ok) {

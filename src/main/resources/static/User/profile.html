@@ -7,15 +7,17 @@
 </head>
 <body>
 
-<div class="dashboard">
+<div class="app-layout">
     <div class="sidebar">
         <h2>UOC Lost & Found</h2>
         <a href="#">Dashboard</a>
-        <a href="#" class="active">Profile</a>
+        <a href="../Item/browse-items.html">Browse Items</a>
+        <a href="../Item/report-item.html">Report Item</a>
+        <a href="profile.html" class="active">Profile</a>
         <a href="#" onclick="logout()">Logout</a>
     </div>
 
-    <div class="main-content">
+    <div class="app-main">
         <div class="profile-card">
             <div class="avatar" id="avatarInitial">?</div>
             <div class="profile-info">
@@ -28,13 +30,13 @@
             <h3>Edit Profile</h3>
 
             <label>Full Name</label>
-            <input type="text" id="fullName">
+            <input type="text" id="name">
 
             <label>Email</label>
             <input type="email" id="email">
 
             <label>Contact Number</label>
-            <input type="text" id="contactNumber">
+            <input type="text" id="phone">
 
             <div class="btn-row">
                 <button class="btn-primary" onclick="saveProfile()">Save Changes</button>
@@ -48,6 +50,7 @@
 
 <script>
     const userId = localStorage.getItem('loggedInUserId');
+    let currentPassword = ''; // keep track so we don't wipe it on save
 
     if (!userId) {
         window.location.href = 'login.html';
@@ -57,20 +60,23 @@
         const response = await fetch(`/api/users/${userId}`);
         const user = await response.json();
 
-        document.getElementById('displayName').innerText = user.fullName;
-        document.getElementById('displayEmail').innerText = user.email;
-        document.getElementById('avatarInitial').innerText = user.fullName.charAt(0).toUpperCase();
+        currentPassword = user.password; // store it silently
 
-        document.getElementById('fullName').value = user.fullName;
+        document.getElementById('displayName').innerText = user.name;
+        document.getElementById('displayEmail').innerText = user.email;
+        document.getElementById('avatarInitial').innerText = user.name.charAt(0).toUpperCase();
+
+        document.getElementById('name').value = user.name;
         document.getElementById('email').value = user.email;
-        document.getElementById('contactNumber').value = user.contactNumber ?? '';
+        document.getElementById('phone').value = user.phone ?? '';
     }
 
     async function saveProfile() {
         const updatedUser = {
-            fullName: document.getElementById('fullName').value,
+            name: document.getElementById('name').value,
             email: document.getElementById('email').value,
-            contactNumber: document.getElementById('contactNumber').value
+            phone: document.getElementById('phone').value,
+            password: currentPassword // send it back unchanged
         };
 
         await fetch(`/api/users/${userId}`, {
