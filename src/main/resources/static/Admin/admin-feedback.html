@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Feedback - Lost & Found</title>
+
+    <link rel="stylesheet" href="../User/css/style.css">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <div class="sidebar">
+        <h2>UOC Lost & Found</h2>
+
+        <a href="admin-feedback.html" class="active">
+            Feedback / Reports
+        </a>
+
+        <a href="#" onclick="logout()">
+            Logout
+        </a>
+    </div>
+
+    <div class="app-main">
+
+        <div class="page-header">
+
+            <div>
+                <h2>Feedback and Abuse Reports</h2>
+
+                <p class="feedback-section-subtitle">
+                    Review feedback and update its current status.
+                </p>
+            </div>
+
+            <button
+                    class="btn-primary small-main-button"
+                    onclick="loadAdminFeedback()">
+
+                Refresh
+            </button>
+
+        </div>
+
+        <div class="search-bar">
+
+            <input
+                    type="text"
+                    id="feedbackSearch"
+                    placeholder="Search by subject, name or email..."
+                    oninput="displayAdminFeedback()">
+
+            <select
+                    id="typeFilter"
+                    onchange="displayAdminFeedback()">
+
+                <option value="">All Types</option>
+                <option value="FEEDBACK">Feedback</option>
+                <option value="REPORT_ABUSE">Report Abuse</option>
+
+            </select>
+
+            <select
+                    id="statusFilter"
+                    onchange="displayAdminFeedback()">
+
+                <option value="">All Statuses</option>
+                <option value="PENDING">Pending</option>
+                <option value="REVIEWED">Reviewed</option>
+                <option value="RESOLVED">Resolved</option>
+
+            </select>
+
+        </div>
+
+        <div class="admin-feedback-table-wrapper">
+
+            <table class="admin-feedback-table">
+
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Type</th>
+                    <th>Item</th>
+                    <th>Subject</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody id="adminFeedbackBody"></tbody>
+
+            </table>
+
+            <p
+                    id="adminEmptyMessage"
+                    class="empty-feedback-message">
+
+                Loading feedback records...
+
+            </p>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="js/admin-feedback.js"></script>
+
+</body>
+</html>
