@@ -340,3 +340,281 @@ textarea {
     resize: vertical;
     min-height: 80px;
 }
+
+/* ---------- Feedback / Report Abuse ---------- */
+
+.optional-text {
+    color: #888;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.feedback-button-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.feedback-button-row .btn-primary,
+.feedback-button-row .btn-secondary {
+    flex: 1;
+    margin-top: 16px;
+}
+
+.feedback-list-container {
+    margin-top: 30px;
+}
+
+.feedback-section-subtitle {
+    color: #777;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.small-main-button {
+    width: auto;
+    padding: 10px 18px;
+    margin-top: 0;
+}
+
+.feedback-grid {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fill,
+        minmax(280px, 1fr)
+    );
+    gap: 18px;
+}
+
+.feedback-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.feedback-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 14px 0;
+    gap: 8px;
+}
+
+.feedback-card-body {
+    padding: 14px;
+}
+
+.feedback-card-body h3 {
+    color: var(--maroon);
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+.feedback-card-body p {
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 6px;
+    line-height: 1.5;
+}
+
+.feedback-message-text {
+    background: #faf7f5;
+    border-left: 3px solid var(--maroon);
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 10px;
+    overflow-wrap: anywhere;
+}
+
+.feedback-date {
+    color: #999 !important;
+    font-size: 12px !important;
+    margin-top: 10px;
+}
+
+.feedback-type-badge,
+.feedback-status-badge {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 6px;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.feedback-type-badge.FEEDBACK {
+    background: #356ba6;
+}
+
+.feedback-type-badge.REPORT_ABUSE {
+    background: #c0392b;
+}
+
+.feedback-status-badge.PENDING {
+    background: #d68910;
+}
+
+.feedback-status-badge.REVIEWED {
+    background: #2471a3;
+}
+
+.feedback-status-badge.RESOLVED {
+    background: #239b56;
+}
+
+.feedback-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.feedback-actions button {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.feedback-actions .edit-btn {
+    background: #f0e4d8;
+    color: var(--maroon);
+}
+
+.feedback-actions .delete-btn {
+    background: #f8d7d7;
+    color: #c0392b;
+}
+
+.feedback-success-message {
+    background: #dff5e5;
+    color: #20743a;
+    border: 1px solid #b9e4c4;
+    padding: 11px 13px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-top: 16px;
+}
+
+.feedback-error-message {
+    background: #f8d7d7;
+    color: #a12626;
+    border: 1px solid #efb9b9;
+    padding: 11px 13px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-top: 16px;
+}
+
+.empty-feedback-message {
+    background: white;
+    color: #777;
+    text-align: center;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+
+/* ---------- Responsive Feedback UI ---------- */
+
+@media screen and (max-width: 750px) {
+
+    .feedback-button-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .feedback-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-header {
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+
+/* ---------- Admin Feedback Table ---------- */
+
+.admin-feedback-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.admin-feedback-table {
+    width: 100%;
+    min-width: 1050px;
+    border-collapse: collapse;
+}
+
+.admin-feedback-table th {
+    background: var(--maroon);
+    color: white;
+    padding: 13px;
+    font-size: 13px;
+    text-align: left;
+}
+
+.admin-feedback-table td {
+    padding: 13px;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+    vertical-align: top;
+}
+
+.admin-feedback-table tbody tr:hover {
+    background: #fcf9f7;
+}
+
+.admin-message-cell {
+    max-width: 250px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.admin-small-text {
+    color: #777;
+    font-size: 12px;
+}
+
+.status-select {
+    min-width: 115px;
+    padding: 8px 9px;
+}
+
+.admin-action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.admin-action-buttons button {
+    border: none;
+    border-radius: 6px;
+    padding: 8px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.admin-update-button {
+    background: #f0e4d8;
+    color: var(--maroon);
+}
+
+.admin-delete-button {
+    background: #f8d7d7;
+    color: #c0392b;
+}
