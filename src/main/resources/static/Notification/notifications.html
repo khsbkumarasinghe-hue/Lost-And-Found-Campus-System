@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Notifications - Lost & Found</title>
+
+    <link rel="stylesheet" href="../User/css/style.css">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <div class="sidebar">
+        <h2>UOC Lost & Found</h2>
+
+        <a href="#">Dashboard</a>
+        <a href="../Item/browse-items.html">Browse Items</a>
+        <a href="../Item/report-item.html">Report Item</a>
+        <a href="notifications.html" class="active">Notifications</a>
+        <a href="../User/profile.html">Profile</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+
+    <div class="app-main">
+
+        <h2>Notifications</h2>
+
+        <div id="notificationContainer">
+            <p>Loading notifications...</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    async function loadNotifications() {
+
+        const container = document.getElementById('notificationContainer');
+
+        try {
+
+            const response = await fetch('/api/notifications');
+
+            const notifications = await response.json();
+
+            container.innerHTML = '';
+
+            if (notifications.length === 0) {
+
+                container.innerHTML = '<p>No notifications available.</p>';
+
+                return;
+            }
+
+            notifications.forEach(notification => {
+
+                const notificationCard = document.createElement('div');
+
+                notificationCard.className = 'notification-card';
+
+                notificationCard.innerHTML = `
+
+                    <h3>
+                        ${notification.readStatus ? 'Notification' : 'New Notification'}
+                    </h3>
+
+                    <p>${notification.message}</p>
+
+                    <p>
+                        <small>
+                            ${notification.createdAt ?? ''}
+                        </small>
+                    </p>
+
+                    <div class="btn-row">
+
+                        ${
+                    !notification.readStatus
+                        ? `<button class="btn-primary"
+                                     onclick="markAsRead(${notification.id})">
+                                     Mark as Read
+                                   </button>`
+                        : ''
+                }
+
+                        <button class="btn-danger"
+                                onclick="deleteNotification(${notification.id})">
+                            Delete
+                        </button>
+
+                    </div>
+
+                `;
+
+                container.appendChild(notificationCard);
+            });
+
+        }
+        catch (error) {
+
+            container.innerHTML =
+                '<p>Unable to load notifications.</p>';
+
+            console.error(error);
+        }
+    }
+
+
+    async function markAsRead(id) {
+
+        await fetch(`/api/notifications/${id}/read`, {
+            method: 'PUT'
+        });
+
+        loadNotifications();
+    }
+
+
+    async function deleteNotification(id) {
+
+        if (!confirm('Delete this notification?')) {
+            return;
+        }
+
+        await fetch(`/api/notifications/${id}`, {
+            method: 'DELETE'
+        });
+
+        loadNotifications();
+    }
+
+
+    function logout() {
+
+        localStorage.removeItem('loggedInUserId');
+
+        window.location.href = '../User/login.html';
+    }
+
+
+    loadNotifications();
+
+</script>
+
+
+</body>
+</html>
