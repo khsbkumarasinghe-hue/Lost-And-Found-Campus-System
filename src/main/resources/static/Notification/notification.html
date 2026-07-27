@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notification Management</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            margin:40px;
+        }
+
+        input{
+            width:300px;
+            padding:8px;
+        }
+
+        button{
+            padding:8px 15px;
+            margin-left:5px;
+        }
+
+        li{
+            margin:10px 0;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h2>Notification Management</h2>
+
+<input
+        id="notifMessage"
+        type="text"
+        placeholder="Enter Notification">
+
+<button onclick="createNotification()">
+    Send
+</button>
+
+<hr>
+
+<h3>Notifications</h3>
+
+<ul id="notifList"></ul>
+
+<script src="notification.js"></script>
+
+</body>
+</html>
