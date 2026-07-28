@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Claims - UOC Lost & Found</title>
+    <link rel="stylesheet" href="../User/css/style.css">
+</head>
+<body>
+<div class="app-layout">
+    <nav class="sidebar">
+        <h2>UOC Lost & Found</h2>
+        <a href="../User/profile.html">Dashboard</a>
+        <a href="../Item/browse-items.html">Browse Items</a>
+        <a href="../Item/report-item.html">Report Item</a>
+        <a href="claims.html" class="active">My Claims</a>
+        <a href="../Feedback/feedback-report.html">Feedback / Report Abuse</a>
+        <a href="../User/profile.html">Profile</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </nav>
+
+    <main class="app-main">
+        <div class="page-header">
+            <div>
+                <h2>My Claims</h2>
+                <p class="claim-subtitle">Submit proof of ownership and follow the progress of your requests.</p>
+            </div>
+            <button class="btn-primary small-main-button" onclick="openClaimForm()">+ New Claim</button>
+        </div>
+
+        <section id="claimFormPanel" class="claim-form-panel hidden">
+            <div class="claim-form-heading">
+                <div>
+                    <h3 id="claimFormTitle">Submit a Claim</h3>
+                    <p>Give clear details that only the owner is likely to know.</p>
+                </div>
+                <button class="claim-close-button" type="button" onclick="closeClaimForm()" aria-label="Close">&times;</button>
+            </div>
+            <form id="claimForm">
+                <label for="itemId">Item</label>
+                <select id="itemId" required>
+                    <option value="">Select an item</option>
+                </select>
+
+                <label for="proofDescription">Proof of ownership</label>
+                <textarea id="proofDescription" maxlength="1000" required
+                          placeholder="Describe identifying marks, contents, serial numbers, or other private details..."></textarea>
+                <div class="claim-field-help"><span>Be specific without sharing sensitive information.</span><span id="proofCount">0 / 1000</span></div>
+
+                <div class="claim-form-actions">
+                    <button class="btn-secondary" type="button" onclick="closeClaimForm()">Cancel</button>
+                    <button class="btn-primary" id="submitClaimButton" type="submit">Submit Claim</button>
+                </div>
+            </form>
+        </section>
+
+        <div id="claimMessage" class="claim-message hidden" role="status"></div>
+
+        <div class="claim-toolbar">
+            <input id="claimSearch" type="text" placeholder="Search by item or proof..." oninput="renderClaims()">
+            <select id="claimStatusFilter" onchange="renderClaims()">
+                <option value="">All statuses</option>
+                <option value="PENDING">Pending</option>
+                <option value="APPROVED">Approved</option>
+                <option value="REJECTED">Rejected</option>
+                <option value="WITHDRAWN">Withdrawn</option>
+            </select>
+        </div>
+
+        <div id="claimGrid" class="claim-grid"></div>
+        <div id="claimEmpty" class="claim-empty">Loading your claims...</div>
+    </main>
+</div>
+<script src="js/claims.js"></script>
+</body>
+</html>

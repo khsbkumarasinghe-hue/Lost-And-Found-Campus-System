@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Claims - UOC Lost & Found</title>
+    <link rel="stylesheet" href="../User/css/style.css">
+</head>
+<body>
+<div class="app-layout">
+    <nav class="sidebar">
+        <h2>UOC Lost & Found</h2>
+        <a href="admin-claims.html" class="active">Claims</a>
+        <a href="admin-feedback.html">Feedback / Reports</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </nav>
+    <main class="app-main">
+        <div class="page-header">
+            <div>
+                <h2>Claim Management</h2>
+                <p class="claim-subtitle">Review ownership evidence and approve or reject requests.</p>
+            </div>
+            <button class="btn-primary small-main-button" onclick="loadClaims()">Refresh</button>
+        </div>
+        <div id="adminClaimMessage" class="claim-message hidden"></div>
+        <div class="claim-toolbar">
+            <input id="adminClaimSearch" type="text" placeholder="Search claim, item, user, or proof..." oninput="renderAdminClaims()">
+            <select id="adminClaimStatus" onchange="renderAdminClaims()">
+                <option value="">All statuses</option>
+                <option value="PENDING">Pending</option>
+                <option value="APPROVED">Approved</option>
+                <option value="REJECTED">Rejected</option>
+                <option value="WITHDRAWN">Withdrawn</option>
+            </select>
+        </div>
+        <div class="admin-feedback-table-wrapper">
+            <table class="admin-feedback-table claim-admin-table">
+                <thead><tr><th>ID</th><th>Item</th><th>Claimant</th><th>Proof</th><th>Submitted</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="adminClaimBody"></tbody>
+            </table>
+            <p id="adminClaimEmpty" class="empty-feedback-message">Loading claims...</p>
+        </div>
+    </main>
+</div>
+<script src="js/admin-claims.js"></script>
+</body>
+</html>
