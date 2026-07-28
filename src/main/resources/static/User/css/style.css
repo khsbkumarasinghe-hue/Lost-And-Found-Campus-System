@@ -309,6 +309,7 @@ input:focus {
 
 .item-card .edit-btn { background: #f0e4d8; color: var(--maroon); }
 .item-card .delete-btn { background: #f8d7d7; color: #c0392b; }
+.item-card .claim-btn { background: #dff5e5; color: #20743a; }
 
 .report-container {
     max-width: 600px;
@@ -617,4 +618,110 @@ button:disabled {
 .admin-delete-button {
     background: #f8d7d7;
     color: #c0392b;
+}
+
+/* ---------- Claims ---------- */
+.hidden { display: none !important; }
+
+.claim-subtitle {
+    color: #777;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.claim-form-panel {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 22px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-top: 4px solid var(--maroon);
+}
+
+.claim-form-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.claim-form-heading h3 { color: var(--maroon); }
+.claim-form-heading p { color: #777; font-size: 13px; margin-top: 4px; }
+.claim-close-button { border: 0; background: transparent; color: #777; font-size: 28px; cursor: pointer; }
+
+.claim-field-help {
+    display: flex;
+    justify-content: space-between;
+    color: #888;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.claim-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.claim-form-actions button { width: auto; flex: 0 0 auto; margin-top: 0; }
+
+.claim-message {
+    padding: 11px 14px;
+    margin-bottom: 18px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.claim-message.success { color: #20743a; background: #dff5e5; border: 1px solid #b9e4c4; }
+.claim-message.error { color: #a12626; background: #f8d7d7; border: 1px solid #efb9b9; }
+
+.claim-toolbar { display: flex; gap: 10px; margin-bottom: 20px; }
+.claim-toolbar input { flex: 1; }
+.claim-toolbar select { width: 190px; }
+
+.claim-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+}
+
+.claim-card {
+    background: white;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 1px solid #eee8e5;
+}
+
+.claim-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.claim-card h3 { color: var(--maroon); margin-top: 5px; font-size: 18px; }
+.claim-id { color: #999; font-size: 11px; font-weight: 700; letter-spacing: .5px; }
+.claim-proof { background: #faf7f5; border-left: 3px solid var(--maroon); padding: 11px; margin: 15px 0 10px; font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
+.claim-date { color: #999; font-size: 12px; }
+
+.claim-status { display: inline-block; padding: 5px 9px; border-radius: 999px; color: white; font-size: 11px; font-weight: 700; }
+.claim-status.PENDING { background: #d68910; }
+.claim-status.APPROVED { background: #239b56; }
+.claim-status.REJECTED { background: #c0392b; }
+.claim-status.WITHDRAWN { background: #777; }
+
+.claim-actions, .admin-claim-actions { display: flex; gap: 8px; margin-top: 15px; }
+.claim-actions button, .admin-claim-actions button { border: 0; border-radius: 6px; padding: 8px 10px; cursor: pointer; font-size: 12px; font-weight: 600; }
+.claim-edit { background: #f0e4d8; color: var(--maroon); }
+.claim-withdraw { background: #fff0cf; color: #8a5b00; }
+.claim-delete, .claim-reject { background: #f8d7d7; color: #c0392b; }
+.claim-approve { background: #dff5e5; color: #20743a; }
+.claim-empty { background: white; color: #777; padding: 35px; border-radius: 12px; text-align: center; }
+.claim-admin-table { min-width: 950px; }
+.claim-admin-table .admin-message-cell { min-width: 240px; }
+.admin-claim-actions { flex-direction: column; margin-top: 0; min-width: 90px; }
+
+@media screen and (max-width: 750px) {
+    .app-layout { display: block; }
+    .sidebar { width: 100%; }
+    .app-main { padding: 20px; }
+    .claim-toolbar, .claim-form-actions { flex-direction: column; }
+    .claim-toolbar select { width: 100%; }
+    .claim-grid { grid-template-columns: 1fr; }
+    .claim-form-actions button { width: 100%; }
 }

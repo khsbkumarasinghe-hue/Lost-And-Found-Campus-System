@@ -13,6 +13,7 @@
         <a href="../User/profile.html">Dashboard</a>
         <a href="browse-items.html" class="active">Browse Items</a>
         <a href="report-item.html">Report Item</a>
+        <a href="../Claim/claims.html">My Claims</a>
         <a href="../Feedback/feedback-report.html">
             Feedback / Report Abuse
         </a>
@@ -68,6 +69,7 @@
           <p>${item.location ?? ''}</p>
           <p>${item.date ?? ''}</p>
           <div class="actions">
+            ${item.status === 'FOUND' ? `<button class="claim-btn" onclick="claimItem(${item.id})">Claim</button>` : ''}
             <button class="edit-btn" onclick="editItem(${item.id})">Edit</button>
             <button class="delete-btn" onclick="deleteItem(${item.id})">Delete</button>
           </div>
@@ -79,6 +81,10 @@
 
     function editItem(id) {
         window.location.href = `report-item.html?id=${id}`;
+    }
+
+    function claimItem(id) {
+        window.location.href = `../Claim/claims.html?itemId=${id}`;
     }
 
     async function deleteItem(id) {
