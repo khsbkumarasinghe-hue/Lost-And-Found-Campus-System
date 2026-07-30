@@ -342,6 +342,7 @@ textarea {
     min-height: 80px;
 }
 
+ HEAD
 /* ---------- Feedback / Report Abuse ---------- */
 
 .optional-text {
@@ -725,3 +726,20 @@ button:disabled {
     .claim-grid { grid-template-columns: 1fr; }
     .claim-form-actions button { width: 100%; }
 }
+
+.notification-card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.notification-card h3 {
+    margin-top: 0;
+}
+
+.notification-card p {
+    margin: 8px 0;
+}
+origin/notification-crud
