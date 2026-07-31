@@ -51,4 +51,8 @@ public class NotificationService {
 
         notificationRepository.deleteById(id);
     }
+
+    public List<Notification> getNotificationsByUser(Long userId) {
+        return notificationRepository.findByUserId(userId);
+    }
 }

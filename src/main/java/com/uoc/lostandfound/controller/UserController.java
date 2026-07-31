@@ -4,6 +4,13 @@ import com.uoc.lostandfound.model.User;
 import com.uoc.lostandfound.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import com.uoc.lostandfound.model.LoginRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import java.util.List;
 
 @RestController
@@ -56,5 +63,24 @@ public class UserController {
         userService.deleteUser(id);
 
         return "User deleted successfully";
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        User user = userService.findByEmail(request.getEmail());
+
+        if (user == null || !user.getPassword().equals(request.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid email or password.");
+        }
+
+        // never send the password back to the browser
+        Map<String, Object> safeUser = new HashMap<>();
+        safeUser.put("id", user.getId());
+        safeUser.put("name", user.getName());
+        safeUser.put("email", user.getEmail());
+        safeUser.put("role", user.getRole());
+
+        return ResponseEntity.ok(safeUser);
     }
 }

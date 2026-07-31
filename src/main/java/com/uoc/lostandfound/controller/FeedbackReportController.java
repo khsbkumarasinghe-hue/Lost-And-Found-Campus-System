@@ -20,7 +20,7 @@ public class FeedbackReportController {
         this.service = service;
     }
 
-    // CREATE
+    // create feedback
     @PostMapping
     public ResponseEntity<FeedbackReport> createFeedbackReport(
             @RequestBody FeedbackReport feedbackReport) {
@@ -31,7 +31,7 @@ public class FeedbackReportController {
         return new ResponseEntity<>(savedReport, HttpStatus.CREATED);
     }
 
-    // READ ALL
+    // get all feedbacks
     @GetMapping
     public ResponseEntity<List<FeedbackReport>>
     getAllFeedbackReports() {
@@ -41,7 +41,7 @@ public class FeedbackReportController {
         );
     }
 
-    // READ ONE
+    // read feedbacks one by one
     @GetMapping("/{id}")
     public ResponseEntity<FeedbackReport>
     getFeedbackReportById(@PathVariable Long id) {
@@ -51,7 +51,7 @@ public class FeedbackReportController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // UPDATE
+    // update feedbacks
     @PutMapping("/{id}")
     public ResponseEntity<FeedbackReport> updateFeedbackReport(
             @PathVariable Long id,
@@ -62,7 +62,7 @@ public class FeedbackReportController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // DELETE
+    // delete feedback
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteFeedbackReport(
             @PathVariable Long id) {

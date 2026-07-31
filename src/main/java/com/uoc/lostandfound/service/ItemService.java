@@ -31,7 +31,7 @@ public class ItemService {
         if (existing == null) return null;
 
         existing.setName(updatedItem.getName());
-        existing.setCategory(updatedItem.getCategory());
+        existing.setCategoryId(updatedItem.getCategoryId());
         existing.setDescription(updatedItem.getDescription());
         existing.setLocation(updatedItem.getLocation());
         existing.setStatus(updatedItem.getStatus());

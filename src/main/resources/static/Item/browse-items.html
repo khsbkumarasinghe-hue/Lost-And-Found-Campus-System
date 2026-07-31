@@ -10,13 +10,12 @@
 <div class="app-layout">
     <div class="sidebar">
         <h2>UOC Lost & Found</h2>
-        <a href="../User/profile.html">Dashboard</a>
-        <a href="browse-items.html" class="active">Browse Items</a>
-        <a href="report-item.html">Report Item</a>
+        <!--<a href="#">Dashboard</a>-->
+        <a href="../Item/browse-items.html" class="active">Browse Items</a>
+        <a href="../Item/report-item.html">Report Item</a>
         <a href="../Claim/claims.html">My Claims</a>
-        <a href="../Feedback/feedback-report.html">
-            Feedback / Report Abuse
-        </a>
+        <a href="../Feedback/feedback-report.html">Feedback / Report Abuse</a>
+        <a href="../Notification/notifications.html">Notifications</a>
         <a href="../User/profile.html">Profile</a>
         <a href="#" onclick="logout()">Logout</a>
     </div>
@@ -43,6 +42,19 @@
 <script>
     const API_URL = '/api/items';
 
+    let categoryMap = {};
+
+    async function loadCategoryMap() {
+        const categoryResponse = await fetch('/api/categories');
+        const categories = await categoryResponse.json();
+
+        // Step 2: build a simple lookup object, like a phone book: { 1: "Electronics", 2: "Wallets", ... }
+        for (let i = 0; i < categories.length; i++) {
+            const cat = categories[i];
+            categoryMap[cat.id] = cat.name;
+        }
+    }
+
     async function loadItems() {
         const response = await fetch(API_URL);
         let items = await response.json();
@@ -65,7 +77,7 @@
         <span class="badge ${item.status}">${item.status}</span>
         <div class="item-body">
           <h4>${item.name}</h4>
-          <p>${item.category ?? ''}</p>
+          <p>${item.categoryName}</p>
           <p>${item.location ?? ''}</p>
           <p>${item.date ?? ''}</p>
           <div class="actions">
@@ -98,7 +110,8 @@
         window.location.href = '../User/login.html';
     }
 
-    loadItems();
+
+    loadCategoryMap().then(loadItems);
 </script>
 
 </body>

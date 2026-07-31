@@ -13,11 +13,12 @@
 
     <div class="sidebar">
         <h2>UOC Lost & Found</h2>
-
-        <a href="#">Dashboard</a>
+        <!--<a href="#">Dashboard</a>-->
         <a href="../Item/browse-items.html">Browse Items</a>
         <a href="../Item/report-item.html">Report Item</a>
-        <a href="notifications.html" class="active">Notifications</a>
+        <a href="../Claim/claims.html">My Claims</a>
+        <a href="../Feedback/feedback-report.html">Feedback / Report Abuse</a>
+        <a href="../Notification/notifications.html" class="active">Notifications</a>
         <a href="../User/profile.html">Profile</a>
         <a href="#" onclick="logout()">Logout</a>
     </div>
@@ -43,8 +44,8 @@
         const container = document.getElementById('notificationContainer');
 
         try {
-
-            const response = await fetch('/api/notifications');
+            const userId = localStorage.getItem('loggedInUserId');
+            const response = await fetch(`/api/notifications/user/${userId}`);
 
             const notifications = await response.json();
 

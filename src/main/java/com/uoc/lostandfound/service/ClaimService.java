@@ -2,10 +2,16 @@ package com.uoc.lostandfound.service;
 
 import com.uoc.lostandfound.model.Claim;
 import com.uoc.lostandfound.model.ClaimStatus;
+import com.uoc.lostandfound.model.Notification;
 import com.uoc.lostandfound.repository.ClaimRepository;
+import com.uoc.lostandfound.service.NotificationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import com.uoc.lostandfound.model.Item;
+import com.uoc.lostandfound.model.User;
+import com.uoc.lostandfound.repository.ItemRepository;
+import com.uoc.lostandfound.repository.UserRepository;
 
 import java.util.List;
 
@@ -13,31 +19,55 @@ import java.util.List;
 public class ClaimService {
 
     private final ClaimRepository claimRepository;
+    private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
-    public ClaimService(ClaimRepository claimRepository) {
+
+    public ClaimService(ClaimRepository claimRepository, ItemRepository itemRepository, UserRepository userRepository, NotificationService notificationService) {
         this.claimRepository = claimRepository;
+        this.itemRepository = itemRepository;
+        this.userRepository = userRepository;
+        this.notificationService = notificationService;
     }
 
     // CREATE: submit a new claim
-    public Claim createClaim(Claim claim) {
-        validateClaimInput(claim);
+    public Claim createClaim(Long itemId, Long claimantId, String proofDescription) {
 
-        boolean duplicateClaim =
-                claimRepository.existsByItemIdAndClaimantId(
-                        claim.getItemId(),
-                        claim.getClaimantId()
-                );
-
-        if (duplicateClaim) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "This user has already submitted a claim for this item"
-            );
+        // Step 1: make sure nothing important is missing
+        if (itemId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Item ID is required");
+        }
+        if (claimantId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Claimant ID is required");
+        }
+        if (proofDescription == null || proofDescription.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Proof description is required");
         }
 
-        claim.setId(null);
+        // Step 2: look up the actual Item and User from the database using the given IDs
+        Item item = itemRepository.findById(itemId).orElse(null);
+        if (item == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Item not found");
+        }
+
+        User claimant = userRepository.findById(claimantId).orElse(null);
+        if (claimant == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found");
+        }
+
+        // Step 3: stop the same user from claiming the same item twice
+        boolean alreadyClaimed = claimRepository.existsByItemIdAndClaimantId(itemId, claimantId);
+        if (alreadyClaimed) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This user has already submitted a claim for this item");
+        }
+
+        // Step 4: build the new claim and save it
+        Claim claim = new Claim();
+        claim.setItem(item);
+        claim.setClaimant(claimant);
+        claim.setProofDescription(proofDescription.trim());
         claim.setStatus(ClaimStatus.PENDING);
-        claim.setCreatedAt(null);
 
         return claimRepository.save(claim);
     }
@@ -112,8 +142,15 @@ public class ClaimService {
         }
 
         claim.setStatus(newStatus);
+        Claim saved = claimRepository.save(claim);
 
-        return claimRepository.save(claim);
+        Notification notification = new Notification(
+                "Your claim #" + saved.getId() + " was " + newStatus.name().toLowerCase() + "."
+        );
+        notification.setUserId(saved.getClaimant().getId());
+        notificationService.createNotification(notification);
+
+        return saved;
     }
 
     // USER cancels a pending claim
@@ -138,38 +175,4 @@ public class ClaimService {
         claimRepository.delete(claim);
     }
 
-    private void validateClaimInput(Claim claim) {
-        if (claim == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Claim data is required"
-            );
-        }
-
-        if (claim.getItemId() == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Item ID is required"
-            );
-        }
-
-        if (claim.getClaimantId() == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Claimant ID is required"
-            );
-        }
-
-        if (claim.getProofDescription() == null
-                || claim.getProofDescription().isBlank()) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Proof description is required"
-            );
-        }
-
-        claim.setProofDescription(
-                claim.getProofDescription().trim()
-        );
-    }
 }

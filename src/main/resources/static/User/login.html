@@ -39,14 +39,17 @@
         const password = document.getElementById('password').value.trim();
         const errorText = document.getElementById('errorText');
 
-        const response = await fetch('/api/users');
-        const users = await response.json();
+        const response = await fetch('/api/users/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
 
-        const matchedUser = users.find(u => u.email === email && u.password === password);
-
-        if (matchedUser) {
-            localStorage.setItem('loggedInUserId', matchedUser.id);
-            window.location.href = 'profile.html';
+        if (response.ok) {
+            const user = await response.json();
+            localStorage.setItem('loggedInUserId', user.id);
+            localStorage.setItem('loggedInUserRole', user.role);
+            window.location.href = user.role === 'ADMIN' ? '../Admin/admin-claims.html' : 'profile.html';
         } else {
             errorText.innerText = "Invalid email or password.";
             errorText.style.display = 'block';

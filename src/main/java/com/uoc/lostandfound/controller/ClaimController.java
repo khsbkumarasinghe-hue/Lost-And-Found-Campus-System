@@ -5,6 +5,7 @@ import com.uoc.lostandfound.model.ClaimStatus;
 import com.uoc.lostandfound.service.ClaimService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 import java.util.List;
 
@@ -18,26 +19,30 @@ public class ClaimController {
         this.claimService = claimService;
     }
 
-    // CREATE: submit a new claim
+    // create claim(submit a new claim)
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Claim createClaim(@RequestBody Claim claim) {
-        return claimService.createClaim(claim);
+    public Claim createClaim(@RequestBody Map<String, Object> body) {
+        Long itemId = Long.valueOf(body.get("itemId").toString());
+        Long claimantId = Long.valueOf(body.get("claimantId").toString());
+        String proofDescription = (String) body.get("proofDescription");
+
+        return claimService.createClaim(itemId, claimantId, proofDescription);
     }
 
-    // READ: view all claims
+    // view all claims
     @GetMapping
     public List<Claim> getAllClaims() {
         return claimService.getAllClaims();
     }
 
-    // READ: view one claim by ID
+    // view one claim by ID
     @GetMapping("/{id}")
     public Claim getClaimById(@PathVariable Long id) {
         return claimService.getClaimById(id);
     }
 
-    // READ: view claims submitted by one user
+    //view claims submitted by one user
     @GetMapping("/user/{claimantId}")
     public List<Claim> getClaimsByClaimant(
             @PathVariable Long claimantId
@@ -45,7 +50,7 @@ public class ClaimController {
         return claimService.getClaimsByClaimant(claimantId);
     }
 
-    // READ: view claims for one item
+    //view claims for one item
     @GetMapping("/item/{itemId}")
     public List<Claim> getClaimsByItem(
             @PathVariable Long itemId
@@ -53,7 +58,7 @@ public class ClaimController {
         return claimService.getClaimsByItem(itemId);
     }
 
-    // UPDATE: edit proof description
+    //edit proof description
     @PutMapping("/{id}")
     public Claim updateClaim(
             @PathVariable Long id,
@@ -62,7 +67,7 @@ public class ClaimController {
         return claimService.updateClaim(id, updatedClaim);
     }
 
-    // UPDATE: admin approves or rejects a claim
+    //admin approves or rejects a claim(update claim status)
     @PatchMapping("/{id}/status")
     public Claim updateClaimStatus(
             @PathVariable Long id,
@@ -71,13 +76,13 @@ public class ClaimController {
         return claimService.updateClaimStatus(id, status);
     }
 
-    // UPDATE: user withdraws a pending claim
+    // user withdraws a pending claim
     @PatchMapping("/{id}/withdraw")
     public Claim withdrawClaim(@PathVariable Long id) {
         return claimService.withdrawClaim(id);
     }
 
-    // DELETE: permanently delete a claim
+    // delete a claim from database
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteClaim(@PathVariable Long id) {

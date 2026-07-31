@@ -10,13 +10,12 @@
 <div class="app-layout">
     <div class="sidebar">
         <h2>UOC Lost & Found</h2>
-        <a href="../User/profile.html">Dashboard</a>
-        <a href="browse-items.html">Browse Items</a>
-        <a href="report-item.html" class="active">Report Item</a>
+        <!--<a href="#">Dashboard</a>-->
+        <a href="../Item/browse-items.html">Browse Items</a>
+        <a href="../Item/report-item.html" class="active">Report Item</a>
         <a href="../Claim/claims.html">My Claims</a>
-        <a href="../Feedback/feedback-report.html">
-            Feedback / Report Abuse
-        </a>
+        <a href="../Feedback/feedback-report.html">Feedback / Report Abuse</a>
+        <a href="../Notification/notifications.html">Notifications</a>
         <a href="../User/profile.html">Profile</a>
         <a href="#" onclick="logout()">Logout</a>
     </div>
@@ -38,7 +37,7 @@
             </select>
 
             <label>Category</label>
-            <input type="text" id="category" placeholder="e.g. Electronics, Wallets, ID Cards">
+            <select id="category"></select>
 
             <label>Location</label>
             <input type="text" id="location" placeholder="Where was it lost/found?">
@@ -81,7 +80,7 @@
         const item = {
             name: document.getElementById('name').value,
             status: document.getElementById('status').value,
-            category: document.getElementById('category').value,
+            categoryId: Number(document.getElementById('category').value),
             location: document.getElementById('location').value,
             date: document.getElementById('date').value,
             description: document.getElementById('description').value
@@ -103,6 +102,14 @@
         localStorage.removeItem('loggedInUserId');
         window.location.href = '../User/login.html';
     }
+
+    async function loadCategories() {
+        const response = await fetch('/api/categories');
+        const categories = await response.json();
+        const select = document.getElementById('category');
+        select.innerHTML = categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+    }
+    loadCategories();
 </script>
 
 </body>

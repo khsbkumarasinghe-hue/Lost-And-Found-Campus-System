@@ -9,19 +9,15 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-
     private String name;
-
     private String email;
-
     private String password;
-
     private String phone;
 
+    @Column(nullable = false)
+    private String role = "USER";
 
     public User() {
-
     }
 
 
@@ -30,6 +26,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.phone = phone;
+        this.role = "USER";
     }
 
 
@@ -80,5 +77,13 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

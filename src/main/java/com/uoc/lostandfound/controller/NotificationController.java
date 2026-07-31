@@ -17,19 +17,19 @@ public class NotificationController {
         this.notificationService = notificationService;
     }
 
-    // CREATE
+    // create notifications
     @PostMapping
     public Notification createNotification(@RequestBody Notification notification) {
         return notificationService.createNotification(notification);
     }
 
-    // READ ALL
+    // read all notifications
     @GetMapping
     public List<Notification> getAllNotifications() {
         return notificationService.getAllNotifications();
     }
 
-    // READ ONE
+    // read notification by id
     @GetMapping("/{id}")
     public ResponseEntity<Notification> getNotificationById(@PathVariable Long id) {
         return notificationService.getNotificationById(id)
@@ -37,16 +37,21 @@ public class NotificationController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // UPDATE - MARK AS READ
+    // update mark as read the notification
     @PutMapping("/{id}/read")
     public Notification markAsRead(@PathVariable Long id) {
         return notificationService.markAsRead(id);
     }
 
-    // DELETE
+    // delete notification
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteNotification(@PathVariable Long id) {
         notificationService.deleteNotification(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<Notification> getByUser(@PathVariable Long userId) {
+        return notificationService.getNotificationsByUser(userId);
     }
 }

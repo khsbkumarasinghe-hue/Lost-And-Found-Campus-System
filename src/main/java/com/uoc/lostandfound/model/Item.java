@@ -2,6 +2,8 @@ package com.uoc.lostandfound.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "items")
 public class Item {
@@ -11,11 +13,11 @@ public class Item {
     private Long id;
 
     private String name;
-    private String category;
+    private Long categoryId;
     private String description;
     private String location;
     private String status;   // "LOST" or "FOUND"
-    private String date;     // stored as text for simplicity (e.g. "2026-07-22")
+    private LocalDate date;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -23,8 +25,8 @@ public class Item {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public Long getCategoryId() { return categoryId; }
+    public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
@@ -35,6 +37,6 @@ public class Item {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
-    public String getDate() { return date; }
-    public void setDate(String date) { this.date = date; }
+    public LocalDate getDate() { return date; }
+    public void setDate(LocalDate date) { this.date = date; }
 }

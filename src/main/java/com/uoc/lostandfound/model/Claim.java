@@ -12,11 +12,13 @@ public class Claim {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long itemId;
+    @ManyToOne
+    @JoinColumn(name = "item_id", nullable = false)
+    private Item item;
 
-    @Column(nullable = false)
-    private Long claimantId;
+    @ManyToOne
+    @JoinColumn(name = "claimant_id", nullable = false)
+    private User claimant;
 
     @Column(nullable = false, length = 1000)
     private String proofDescription;
@@ -50,20 +52,20 @@ public class Claim {
         this.id = id;
     }
 
-    public Long getItemId() {
-        return itemId;
+    public Item getItem() {
+        return item;
     }
 
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
+    public void setItem(Item item) {
+        this.item = item;
     }
 
-    public Long getClaimantId() {
-        return claimantId;
+    public User getClaimant() {
+        return claimant;
     }
 
-    public void setClaimantId(Long claimantId) {
-        this.claimantId = claimantId;
+    public void setClaimant(User claimant) {
+        this.claimant = claimant;
     }
 
     public String getProofDescription() {
