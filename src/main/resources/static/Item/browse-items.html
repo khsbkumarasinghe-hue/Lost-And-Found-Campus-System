@@ -43,6 +43,7 @@
     const API_URL = '/api/items';
 
     let categoryMap = {};
+    let locationMap = {};
 
     async function loadCategoryMap() {
         const categoryResponse = await fetch('/api/categories');
