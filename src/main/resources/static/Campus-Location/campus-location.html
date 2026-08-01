@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Locations - Lost & Found</title>
+    <link rel="stylesheet" href="../User/css/style.css">
+    <link rel="stylesheet" href="campus-location.css">
+</head>
+<body>
+<div class="container">
+    <h2>Campus Locations Management</h2>
+
+    <!-- Add / Edit Location Form -->
+    <form id="locationForm" class="location-form">
+        <input type="hidden" id="locationId">
+
+        <div class="form-group">
+            <label for="locationName">Location Name:</label>
+            <input type="text" id="locationName" placeholder="e.g., Main Library" required>
+        </div>
+
+        <div class="form-group">
+            <label for="buildingName">Building / Zone:</label>
+            <input type="text" id="buildingName" placeholder="e.g., Block A" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" rows="3" placeholder="Additional details..."></textarea>
+        </div>
+
+        <button type="submit" id="submitBtn">Save Location</button>
+        <button type="button" id="cancelBtn" class="secondary-btn" style="display:none;">Cancel</button>
+    </form>
+
+    <hr>
+
+    <!-- Locations List -->
+    <h3>Existing Locations</h3>
+    <table class="location-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Location Name</th>
+            <th>Building / Zone</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody id="locationTableBody">
+        <!-- Data dynamically inserted here -->
+        </tbody>
+    </table>
+</div>
+
+<script src="campus-location.js"></script>
+</body>
+</html>
