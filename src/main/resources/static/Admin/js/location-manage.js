@@ -1,283 +1,97 @@
 const API_URL = "/api/campus-locations";
 
-
-// Load locations when page opens
 window.onload = function () {
     loadLocations();
 };
 
-
-// Get all locations
 function loadLocations() {
-
     fetch(API_URL)
-
         .then(response => response.json())
-
         .then(data => {
-
             let table = document.getElementById("locationTable");
-
             table.innerHTML = "";
 
-
             data.forEach(location => {
-
                 table.innerHTML += `
-
-                <tr>
-
-                    <td>${location.id}</td>
-
-                    <td>${location.name}</td>
-
-                    <td>
-
-                        <button onclick="editLocation(${location.id}, '${location.name}')">
-                            Edit
-                        </button>
-
-
-                        <button onclick="deleteLocation(${location.id})">
-                            Delete
-                        </button>
-
-                    </td>
-
-                </tr>
-
+                    <tr>
+                        <td>${location.id}</td>
+                        <td>${location.locationName}</td>
+                        <td>
+                            <button class="admin-update-button" style="border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-weight:600;"
+                                onclick="editLocation(${location.id}, '${location.locationName}')">
+                                Edit
+                            </button>
+                            <button class="admin-delete-button" style="border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-weight:600; margin-left:6px;"
+                                onclick="deleteLocation(${location.id})">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
                 `;
-
             });
-
-
         })
-
         .catch(error => console.log(error));
-
 }
-
-
-
-
-
-// Add location
 
 function addLocation() {
+    let locationName = document.getElementById("locationName").value.trim();
 
-
-    let name = document.getElementById("locationName").value;
-
-
-    if(name === ""){
-
+    if (locationName === "") {
         alert("Enter Location Name");
         return;
-
     }
-
 
     fetch(API_URL, {
-
-
-        method:"POST",
-
-
-        headers:{
-            "Content-Type":"application/json"
-        },
-
-
-        body:JSON.stringify({
-
-            name:name
-
-        })
-
-
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ locationName: locationName })
     })
-
-
-        .then(response=>response.json())
-
-
-        .then(()=>{
-
-
+        .then(response => response.json())
+        .then(() => {
             alert("Location Added");
-
-
             clearForm();
-
-
             loadLocations();
-
-
         });
-
-
 }
 
-
-
-
-
-
-
-// Edit location
-
-function editLocation(id,name){
-
-
+function editLocation(id, locationName) {
     document.getElementById("locationId").value = id;
-
-
-    document.getElementById("locationName").value = name;
-
-
+    document.getElementById("locationName").value = locationName;
 }
 
-
-
-
-
-
-
-
-// Update location
-
-function updateLocation(){
-
-
+function updateLocation() {
     let id = document.getElementById("locationId").value;
+    let locationName = document.getElementById("locationName").value.trim();
 
-
-    let name = document.getElementById("locationName").value;
-
-
-
-    if(id===""){
-
-
-        alert("Select location first");
-
-
+    if (id === "") {
+        alert("Select a location first");
         return;
-
     }
 
-
-
-
-    fetch(API_URL+"/"+id,{
-
-
-        method:"PUT",
-
-
-        headers:{
-
-
-            "Content-Type":"application/json"
-
-
-        },
-
-
-        body:JSON.stringify({
-
-
-            id:id,
-
-
-            name:name
-
-
-        })
-
-
+    fetch(API_URL + "/" + id, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ locationName: locationName })
     })
-
-
-
-        .then(response=>response.json())
-
-
-
-        .then(()=>{
-
-
+        .then(response => response.json())
+        .then(() => {
             alert("Location Updated");
-
-
             clearForm();
-
-
             loadLocations();
-
-
         });
-
-
-
 }
 
-
-
-
-
-
-
-// Delete location
-
-function deleteLocation(id){
-
-
-    if(confirm("Delete this location?")){
-
-
-        fetch(API_URL+"/"+id,{
-
-
-            method:"DELETE"
-
-
-        })
-
-
-
-            .then(()=>{
-
-
+function deleteLocation(id) {
+    if (confirm("Delete this location?")) {
+        fetch(API_URL + "/" + id, { method: "DELETE" })
+            .then(() => {
                 alert("Deleted");
-
-
                 loadLocations();
-
-
             });
-
-
     }
-
-
 }
 
-
-
-
-
-
-
-// Clear form
-
-function clearForm(){
-
-
-    document.getElementById("locationId").value="";
-
-
-    document.getElementById("locationName").value="";
-
-
+function clearForm() {
+    document.getElementById("locationId").value = "";
+    document.getElementById("locationName").value = "";
 }

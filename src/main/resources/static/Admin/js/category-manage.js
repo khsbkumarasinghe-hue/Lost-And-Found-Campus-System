@@ -22,14 +22,14 @@ function loadCategories() {
                         <td>${category.name}</td>
                         <td>
 
-                            <button class="btn btn-primary btn-sm"
+                            <button class="admin-update-button" style="border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-weight:600;"
                                 onclick="editCategory(${category.id}, '${category.name}')">
-                                Edit
+                                    Edit
                             </button>
 
-                            <button class="btn btn-danger btn-sm"
+                            <button class="admin-delete-button" style="border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-weight:600; margin-left:6px;"
                                 onclick="deleteCategory(${category.id})">
-                                Delete
+                                    Delete
                             </button>
 
                         </td>

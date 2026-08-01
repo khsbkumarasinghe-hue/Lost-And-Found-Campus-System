@@ -1,227 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Category Management - UOC Lost & Found</title>
-
-
     <link rel="stylesheet" href="../User/css/style.css">
-
-
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-
-
-    <style>
-
-        body{
-            background:#f5f5f5;
-        }
-
-
-        .category-container{
-            margin:40px;
-        }
-
-
-        .card{
-            border:none;
-            box-shadow:0 2px 8px rgba(0,0,0,.15);
-        }
-
-
-        .table{
-            margin-top:20px;
-        }
-
-
-        .btn{
-            margin-right:5px;
-        }
-
-
-        h2{
-            font-weight:bold;
-            margin-bottom:20px;
-        }
-
-    </style>
-
 </head>
-
-
 <body>
-
 
 <div class="app-layout">
 
-
-    <!-- Sidebar -->
-
     <div class="sidebar">
-
         <h2>UOC Lost & Found</h2>
-
-
-        <a href="admin-claims.html">
-            Claims
-        </a>
-
-
-        <a href="admin-feedback.html">
-            Feedback / Reports
-        </a>
-
-
-        <a href="category-manage.html" class="active">
-            Category Management
-        </a>
-
-
-        <a href="location-manage.html">
-            Location Management
-        </a>
-
-
-        <a href="#" onclick="logout()">
-            Logout
-        </a>
-
-
+        <a href="admin-claims.html">Claims</a>
+        <a href="admin-feedback.html">Feedback / Reports</a>
+        <a href="category-manage.html" class="active">Category Management</a>
+        <a href="location-manage.html">Location Management</a>
+        <a href="user-manage.html">User Management</a>
+        <a href="#" onclick="logout()">Logout</a>
     </div>
-
-
-
-    <!-- Main Content -->
 
     <div class="app-main">
 
-
-        <div class="category-container">
-
-
-            <div class="card p-4">
-
-
-                <h2>
-                    Category Management
-                </h2>
-
-
-
-                <input type="hidden" id="categoryId">
-
-
-
-                <div class="row">
-
-
-                    <div class="col-md-8">
-
-
-                        <input
-                                type="text"
-                                id="categoryName"
-                                class="form-control"
-                                placeholder="Enter Category Name">
-
-
-                    </div>
-
-
-
-                    <div class="col-md-4">
-
-
-                        <button class="btn btn-success"
-                                onclick="saveCategory()">
-
-                            Save
-
-                        </button>
-
-
-
-                        <button class="btn btn-warning"
-                                onclick="updateCategory()">
-
-                            Update
-
-                        </button>
-
-
-
-                        <button class="btn btn-secondary"
-                                onclick="clearForm()">
-
-                            Clear
-
-                        </button>
-
-
-                    </div>
-
-
-                </div>
-
-
-
-
-                <table class="table table-bordered table-hover">
-
-
-                    <thead class="table-dark">
-
-
-                    <tr>
-
-                        <th>ID</th>
-
-                        <th>Category Name</th>
-
-                        <th width="180">Action</th>
-
-                    </tr>
-
-
-                    </thead>
-
-
-
-                    <tbody id="categoryTable">
-
-
-                    </tbody>
-
-
-                </table>
-
-
-
+        <div class="page-header">
+            <div>
+                <h2>Category Management</h2>
+                <p class="feedback-section-subtitle">Add, edit, or remove item categories used when reporting items.</p>
             </div>
-
-
+            <button class="btn-primary small-main-button" onclick="loadCategories()">Refresh</button>
         </div>
 
+        <div class="claim-form-panel">
+            <input type="hidden" id="categoryId">
+            <label>Category Name</label>
+            <div style="display:flex; gap:10px; margin-top:6px;">
+                <input type="text" id="categoryName" placeholder="Example: Electronics" style="flex:1;">
+                <button class="btn-primary small-main-button" onclick="saveCategory()">Save</button>
+                <button class="admin-update-button" style="border:none; border-radius:6px; padding:8px 16px; cursor:pointer; font-weight:600;" onclick="updateCategory()">Update</button>
+                <button class="admin-delete-button" style="border:none; border-radius:6px; padding:8px 16px; cursor:pointer; font-weight:600;" onclick="clearForm()">Clear</button>
+            </div>
+        </div>
+
+        <div class="admin-feedback-table-wrapper">
+            <table class="admin-feedback-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Category Name</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="categoryTable"></tbody>
+            </table>
+        </div>
 
     </div>
-
-
-
 </div>
 
-
-
 <script src="js/category-manage.js"></script>
-
 <script src="js/admin-guard.js"></script>
 
-
 </body>
-
 </html>

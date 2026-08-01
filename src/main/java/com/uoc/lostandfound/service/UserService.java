@@ -18,8 +18,24 @@ public class UserService {
 
 
     // Get all users
+    // Get all users (passwords stripped before returning)
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        List<User> users = userRepository.findAll();
+        for (User u : users) {
+            u.setPassword(null);
+        }
+        return users;
+    }
+
+    public User updateUserRole(Long id, String role) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return null;
+        }
+        user.setRole(role);
+        User saved = userRepository.save(user);
+        saved.setPassword(null);
+        return saved;
     }
 
 

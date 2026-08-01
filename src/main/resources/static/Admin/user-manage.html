@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - UOC Lost & Found</title>
+    <link rel="stylesheet" href="../User/css/style.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <div class="sidebar">
+        <h2>UOC Lost & Found</h2>
+        <a href="admin-claims.html">Claims</a>
+        <a href="admin-feedback.html">Feedback / Reports</a>
+        <a href="category-manage.html">Category Management</a>
+        <a href="location-manage.html">Location Management</a>
+        <a href="user-manage.html" class="active">User Management</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <div class="app-main">
+
+        <div class="page-header">
+            <div>
+                <h2>User Management</h2>
+                <p class="feedback-section-subtitle">View registered users and manage admin access.</p>
+            </div>
+            <button class="btn-primary small-main-button" onclick="loadUsers()">Refresh</button>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="userSearch" placeholder="Search by name or email..." oninput="displayUsers()">
+        </div>
+
+        <div class="admin-feedback-table-wrapper">
+            <table class="admin-feedback-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="userTableBody"></tbody>
+            </table>
+            <p id="userEmptyMessage" class="empty-feedback-message" style="display:none;">No users found.</p>
+        </div>
+
+    </div>
+</div>
+
+<script src="js/user-manage.js"></script>
+<script src="js/admin-guard.js"></script>
+
+</body>
+</html>

@@ -83,4 +83,16 @@ public class UserController {
 
         return ResponseEntity.ok(safeUser);
     }
+
+    @PatchMapping("/{id}/role")
+    public User updateUserRole(@PathVariable Long id, @RequestParam String role) {
+
+        // id comes from the URL, e.g. /api/users/5/role
+        // role comes from a query parameter, e.g. ?role=ADMIN
+
+        // hand both values to the service, which does the actual work
+        User updatedUser = userService.updateUserRole(id, role);
+
+        return updatedUser;
+    }
 }
