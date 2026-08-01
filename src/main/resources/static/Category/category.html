@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Categories - Lost & Found</title>
+    <link rel="stylesheet" href="../User/css/style.css">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <div class="sidebar">
+
+        <h2>UOC Lost & Found</h2>
+
+        <a href="../User/profile.html">Dashboard</a>
+        <a href="../Item/browse-items.html">Browse Items</a>
+        <a href="../Item/report-item.html">Report Item</a>
+        <a href="category.html" class="active">Categories</a>
+        <a href="../User/profile.html">Profile</a>
+        <a href="#" onclick="logout()">Logout</a>
+
+    </div>
+
+
+    <div class="app-main">
+
+
+        <div class="page-header">
+
+            <div>
+                <h2>Category Management</h2>
+                <p style="color:#777; margin-top:5px;">
+                    Manage item categories for Lost & Found system
+                </p>
+            </div>
+
+        </div>
+
+
+
+        <div class="report-container">
+
+            <h2>Add New Category</h2>
+
+            <label>Category Name</label>
+
+            <input
+                    type="text"
+                    id="categoryName"
+                    placeholder="Example: Electronics">
+
+
+            <button class="btn-primary"
+                    onclick="addCategory()">
+
+                + Add Category
+
+            </button>
+
+
+        </div>
+
+
+        <br>
+
+
+        <h2 style="color:#7a1f2b;">
+            Available Categories
+        </h2>
+
+
+        <div class="item-grid" id="categoryGrid"></div>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+    const API_URL = "/api/categories";
+
+
+
+    async function loadCategories(){
+
+        const response = await fetch(API_URL);
+
+        const categories = await response.json();
+
+
+        const grid = document.getElementById("categoryGrid");
+
+        grid.innerHTML="";
+
+
+        categories.forEach(category=>{
+
+
+            const card=document.createElement("div");
+
+            card.className="item-card";
+
+
+            card.innerHTML=`
+
+            <div class="item-body">
+
+                <h4>
+                    📁 ${category.name}
+                </h4>
+
+
+                <p>
+                    Category ID: ${category.id}
+                </p>
+
+
+                <div class="actions">
+
+                    <button
+                    class="edit-btn"
+                    onclick="editCategory(${category.id},
+                    '${category.name}')">
+
+                    Edit
+
+                    </button>
+
+
+                    <button
+                    class="delete-btn"
+                    onclick="deleteCategory(${category.id})">
+
+                    Delete
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        `;
+
+
+            grid.appendChild(card);
+
+
+        });
+
+
+    }
+
+
+
+
+    async function addCategory(){
+
+
+        const name =
+            document.getElementById("categoryName").value;
+
+
+        if(name.trim()===""){
+
+            alert("Please enter category name");
+
+            return;
+
+        }
+
+
+        await fetch(API_URL,{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                name:name
+
+            })
+
+        });
+
+
+        document.getElementById("categoryName").value="";
+
+
+        loadCategories();
+
+
+    }
+
+
+
+
+    async function editCategory(id, oldName){
+
+
+        const newName =
+            prompt("Edit category name:", oldName);
+
+
+
+        if(!newName) return;
+
+
+
+        await fetch(`${API_URL}/${id}`,{
+
+            method:"PUT",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                name:newName
+
+            })
+
+        });
+
+
+        loadCategories();
+
+
+    }
+
+
+
+
+
+    async function deleteCategory(id){
+
+
+        if(!confirm("Delete this category?"))
+
+            return;
+
+
+
+        await fetch(`${API_URL}/${id}`,{
+
+            method:"DELETE"
+
+        });
+
+
+        loadCategories();
+
+    }
+
+
+
+
+    function logout(){
+
+        localStorage.removeItem("loggedInUserId");
+
+        window.location.href="../User/login.html";
+
+    }
+
+
+
+    loadCategories();
+
+
+</script>
+
+
+</body>
+</html>
