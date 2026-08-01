@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Location Management - UOC Lost & Found</title>
+
+
+    <link rel="stylesheet" href="../User/css/style.css">
+
+
+    <style>
+
+        body{
+            background:#f5f5f5;
+        }
+
+
+        .location-container{
+            margin:40px;
+        }
+
+
+        .card{
+            background:white;
+            padding:25px;
+            border-radius:10px;
+            box-shadow:0 2px 8px rgba(0,0,0,.15);
+        }
+
+
+        input{
+            padding:8px;
+            width:250px;
+        }
+
+
+        button{
+            padding:8px 15px;
+            cursor:pointer;
+        }
+
+
+        table{
+
+            margin-top:20px;
+            border-collapse:collapse;
+            width:70%;
+
+        }
+
+
+        th,td{
+
+            border:1px solid #ccc;
+            padding:10px;
+            text-align:center;
+
+        }
+
+
+        th{
+
+            background:#eee;
+
+        }
+
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+
+<div class="app-layout">
+
+
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+
+
+        <h2>UOC Lost & Found</h2>
+
+
+        <a href="admin-claims.html">
+            Claims
+        </a>
+
+
+        <a href="admin-feedback.html">
+            Feedback / Reports
+        </a>
+
+
+        <a href="category-manage.html">
+            Category Management
+        </a>
+
+
+        <a href="location-manage.html" class="active">
+            Location Management
+        </a>
+
+
+        <a href="#" onclick="logout()">
+            Logout
+        </a>
+
+
+    </div>
+
+
+
+
+    <!-- Main Content -->
+
+
+    <div class="app-main">
+
+
+        <div class="location-container">
+
+
+            <div class="card">
+
+
+                <h2>
+                    Location Management
+                </h2>
+
+
+
+                <input type="hidden" id="locationId">
+
+
+
+                <input
+                        type="text"
+                        id="locationName"
+                        placeholder="Enter Location">
+
+
+
+                <button onclick="addLocation()">
+                    Create
+                </button>
+
+
+                <button onclick="updateLocation()">
+                    Update
+                </button>
+
+
+
+
+                <table>
+
+
+                    <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Location Name</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+
+                    </thead>
+
+
+
+                    <tbody id="locationTable">
+
+
+                    </tbody>
+
+
+                </table>
+
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+</div>
+
+
+
+
+<script src="js/location-manage.js"></script>
+
+<script src="js/admin-guard.js"></script>
+
+
+</body>
+
+</html>
