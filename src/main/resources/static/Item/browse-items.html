@@ -55,6 +55,13 @@
         }
     }
 
+    async function loadLocationMap() {
+        const locations = await (await fetch('/api/campus-locations')).json();
+        for (let i = 0; i < locations.length; i++) {
+            locationMap[locations[i].id] = locations[i].locationName;
+        }
+    }
+
     async function loadItems() {
         const response = await fetch(API_URL);
         let items = await response.json();
@@ -73,13 +80,17 @@
         items.forEach(item => {
             const card = document.createElement('div');
             card.className = 'item-card';
+
+            const categoryName = categoryMap[item.categoryId] || 'Uncategorized';
+            const locationName = locationMap[item.locationId] || 'Unknown location';
+
             card.innerHTML = `
-        <span class="badge ${item.status}">${item.status}</span>
-        <div class="item-body">
-          <h4>${item.name}</h4>
-          <p>${item.categoryName}</p>
-          <p>${item.location ?? ''}</p>
-          <p>${item.date ?? ''}</p>
+                <span class="badge ${item.status}">${item.status}</span>
+                <div class="item-body">
+                <h4>${item.name}</h4>
+                <p>${categoryName}</p>
+                <p>${locationName}</p>
+                <p>${item.date ?? ''}</p>
           <div class="actions">
             ${item.status === 'FOUND' ? `<button class="claim-btn" onclick="claimItem(${item.id})">Claim</button>` : ''}
             <button class="edit-btn" onclick="editItem(${item.id})">Edit</button>
@@ -111,7 +122,13 @@
     }
 
 
-    loadCategoryMap().then(loadItems);
+    async function loadEverything() {
+        await loadCategoryMap();
+        await loadLocationMap();
+        loadItems();
+    }
+
+    loadEverything();
 </script>
 
 </body>

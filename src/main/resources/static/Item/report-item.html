@@ -40,7 +40,7 @@
             <select id="category"></select>
 
             <label>Location</label>
-            <input type="text" id="location" placeholder="Where was it lost/found?">
+            <select id="location"></select>
 
             <label>Date</label>
             <input type="date" id="date">
@@ -70,8 +70,8 @@
         document.getElementById('itemId').value = item.id;
         document.getElementById('name').value = item.name;
         document.getElementById('status').value = item.status;
-        document.getElementById('category').value = item.category ?? '';
-        document.getElementById('location').value = item.location ?? '';
+        document.getElementById('category').value = item.categoryId ?? '';
+        document.getElementById('location').value = item.locationId ?? '';
         document.getElementById('date').value = item.date ?? '';
         document.getElementById('description').value = item.description ?? '';
     }
@@ -81,7 +81,7 @@
             name: document.getElementById('name').value,
             status: document.getElementById('status').value,
             categoryId: Number(document.getElementById('category').value),
-            location: document.getElementById('location').value,
+            locationId: Number(document.getElementById('location').value),
             date: document.getElementById('date').value,
             description: document.getElementById('description').value
         };
@@ -110,6 +110,14 @@
         select.innerHTML = categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
     }
     loadCategories();
+
+    async function loadLocations() {
+        const response = await fetch('/api/campus-locations');
+        const locations = await response.json();
+        const select = document.getElementById('location');
+        select.innerHTML = locations.map(l => `<option value="${l.id}">${l.locationName}</option>`).join('');
+    }
+    loadLocations();
 </script>
 
 </body>

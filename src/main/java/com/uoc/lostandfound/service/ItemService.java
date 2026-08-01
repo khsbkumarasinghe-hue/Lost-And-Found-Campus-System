@@ -33,7 +33,7 @@ public class ItemService {
         existing.setName(updatedItem.getName());
         existing.setCategoryId(updatedItem.getCategoryId());
         existing.setDescription(updatedItem.getDescription());
-        existing.setLocation(updatedItem.getLocation());
+        existing.setLocationId(updatedItem.getLocationId());
         existing.setStatus(updatedItem.getStatus());
         existing.setDate(updatedItem.getDate());
         return itemRepository.save(existing);

@@ -1,11 +1,9 @@
 package com.uoc.lostandfound.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "campus_location")
 public class CampusLocation {
 
     @Id

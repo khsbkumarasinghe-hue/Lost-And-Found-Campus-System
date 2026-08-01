@@ -15,7 +15,7 @@ public class Item {
     private String name;
     private Long categoryId;
     private String description;
-    private String location;
+    private Long locationId;
     private String status;   // "LOST" or "FOUND"
     private LocalDate date;
 
@@ -31,8 +31,8 @@ public class Item {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
+    public Long getLocationId() { return locationId; }
+    public void setLocationId(Long locationId) { this.locationId = locationId; }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
